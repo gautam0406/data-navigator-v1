@@ -1,0 +1,36 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+env/
+
+# Logs and temporary files
+*.log
+logs/
+.cache/
+instance/
+*.db
+*.sqlite3
+
+# Sensitive files
+.env
+key.py
+config.py
+
+# IDE/Editor Specific
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Uploaded files
+uploads/
+
+# Static files (if generated dynamically)
+static/
+
+# Docker-specific
+*.dockerignore
