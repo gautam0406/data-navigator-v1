@@ -30,7 +30,7 @@ config.py
 uploads/
 
 # Static files (if generated dynamically)
-static/
+static/*
 
 !static/styles.css
 !static/images/
