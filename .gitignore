@@ -33,7 +33,7 @@ uploads/
 static/*
 
 !static/styles.css
-!static/images/
 
 # Docker-specific
 *.dockerignore
+flask_session/
