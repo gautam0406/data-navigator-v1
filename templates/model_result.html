@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Model Results</title>
+</head>
+<body>
+    <div class="w3-top">
+        <div class="w3-bar w3-white w3-card" id="myNavbar">
+            <a href={{ url_for('welcome') }} class="w3-bar-item w3-button w3-wide">HOME</a>
+        </div>
+    </div>
+    <div style="padding-top: 30px;">
+        <div class="top"><h1><b>LOGISTIC REGRESSION</b></h1></div>
+        <div class="w3-container">
+            <p>Test Size: {{ test_size }}</p>
+            <p>Random State: {{ random_state }}</p>
+            <p>Model Accuracy: {{ accuracy }}</p>
+            <p>Confusion Matrix: {{ matrix }}</p>
+    
+            <h2>Confusion Matrix</h2>
+            <div>
+                <img src="{{ confusion_matrix_url }}" alt="Confusion Matrix">
+            </div>
+            <h2>Classification Report</h2>
+            <div>
+                {{ report_html|safe }}
+            </div>
+        </div>
+    </div>
+    
+    
+    
+</body>
+</html>
