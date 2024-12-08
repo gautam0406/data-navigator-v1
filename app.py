@@ -302,6 +302,5 @@ def train_model():
                                confusion_matrix_url=url_for('static', filename='confusion_matrix.png'),
                                report_html=report_html)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
 
