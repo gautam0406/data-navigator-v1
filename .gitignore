@@ -34,6 +34,7 @@ uploads/
 static/*
 
 !static/styles.css
+!static/background_image.png
 
 # Docker-specific
 *.dockerignore
