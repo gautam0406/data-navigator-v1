@@ -21,7 +21,7 @@
         <div class="w3-container">
         <div class="top"><h1><b>BOX PLOTS</b></h1></div>
         <div class="box-plot">
-            <img src="{{ boxplot_url }}" alt="Box Plots of Top 3 Features">
+            {{ boxplot_html|safe }}
         </div>
         <div class="w3-section">
             <h2 style="text-align: left;">Select Columns to Remove Outliers</h2>

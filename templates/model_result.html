@@ -25,7 +25,7 @@
     
             <h2>Confusion Matrix</h2>
             <div>
-                <img src="{{ confusion_matrix_url }}" alt="Confusion Matrix">
+                {{ confusion_matrix_html|safe }}
             </div>
             <h2>Classification Report</h2>
             <div>

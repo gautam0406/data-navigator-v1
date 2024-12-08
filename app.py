@@ -6,11 +6,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score,confusion_matrix
 from sklearn.preprocessing import OrdinalEncoder
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-import seaborn as sns
 from sklearn.metrics import classification_report
+import plotly.express as px
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+
+
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY  
@@ -24,7 +25,7 @@ if not os.path.exists(app.config['STATIC_FOLDER']):
     os.makedirs(app.config['STATIC_FOLDER'])
 
 @app.route('/')
-def welcome():
+def index():
     return render_template('index.html')
 
 @app.route('/upload', methods=['POST'])
@@ -67,7 +68,7 @@ def dataset_info():
     isna = session.get('isna')
     
     if not file_path:
-        return redirect(url_for('welcome'))
+        return redirect(url_for('index'))
     
     return render_template('dataset_info.html', 
                            file_path=file_path, 
@@ -112,7 +113,7 @@ def drop_columns():
     file_path = session.get('file_path')
     
     if not file_path or not os.path.exists(file_path):
-        return redirect(url_for('welcome'))
+        return redirect(url_for('index'))
     
     df = pd.read_csv(file_path)
     df.drop(columns=selected_columns, inplace=True)
@@ -139,7 +140,7 @@ def apply_encoding():
     columns = session.get('columns')
 
     if not file_path or not os.path.exists(file_path):
-        return redirect(url_for('welcome'))
+        return redirect(url_for('index'))
     
     df = pd.read_csv(file_path)
     
@@ -166,17 +167,18 @@ def show_correlation_heatmap():
     target_column = session.get('target_column')
     
     if not file_path or not os.path.exists(file_path):
-        return redirect(url_for('welcome'))
+        return redirect(url_for('index'))
     
     df = pd.read_csv(file_path)
 
     corr_matrix = df.corr()
-    plt.figure(figsize=(15, 7))
-    sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', fmt='.2f', linewidths=0.5)
-    heatmap_path = os.path.join(app.config['STATIC_FOLDER'], 'heatmap.png')
-    plt.savefig(heatmap_path)
-    plt.close()
-
+    fig = px.imshow(corr_matrix, 
+                text_auto=True, 
+                color_continuous_scale='RdBu', 
+                title="Correlation Matrix",
+                aspect='auto')
+    heatmap_html = fig.to_html(full_html=False)
+    
     if target_column in df.columns:
         corr_target = abs(corr_matrix[target_column]).sort_values(ascending=False)
     else:
@@ -188,7 +190,7 @@ def show_correlation_heatmap():
     session['top_features'] = top_features
     
     return render_template('show_correlation_heatmap.html', 
-                           heatmap_url=url_for('static', filename='heatmap.png'),
+                           heatmap_html=heatmap_html,
                            corr_target_html=corr_target_html,
                            df_html=df.head().to_html(classes='data', header=True, index=False))
 
@@ -198,7 +200,7 @@ def show_box_plots():
     target_column = session.get('target_column')
     
     if not file_path or not os.path.exists(file_path):
-        return redirect(url_for('welcome'))
+        return redirect(url_for('index'))
     
     df = pd.read_csv(file_path)
     
@@ -207,25 +209,20 @@ def show_box_plots():
         corr_target = abs(corr_matrix[target_column]).sort_values(ascending=False)
         top_features = corr_target.index[1:4]  
         
-        plt.figure(figsize=(10, 3))
-        for feature in top_features:
-            plt.subplot(1, 3, top_features.get_loc(feature) + 1)
-            sns.boxplot(x=df[feature])
-            plt.title(f'Box Plot of {feature}')
-        
-        plt.tight_layout()
-        
-        boxplot_path = os.path.join(app.config['STATIC_FOLDER'], 'box_plots.png')
-        if os.path.exists(boxplot_path):
-            os.remove(boxplot_path)
-        
-        plt.savefig(boxplot_path)
-        plt.close()
+        fig = make_subplots(rows=1, cols=len(top_features), subplot_titles=top_features)
+        for i, feature in enumerate(top_features):
+            fig.add_trace(
+            go.Box(y=df[feature], name=feature),
+            row=1, col=i+1
+        )
+        fig.update_layout(title="Box Plots of Top Features")
+        boxplot_html = fig.to_html(full_html=False)
+
         
         df_html = df.head().to_html(classes='data', header=True, index=False)
         
         return render_template('show_box_plots.html', 
-                               boxplot_url=url_for('static', filename='box_plots.png'),
+                               boxplot_html=boxplot_html,
                                df_html=df_html,
                                top_features=top_features)
 
@@ -235,7 +232,7 @@ def remove_outliers():
     target_column = session.get('target_column')
     
     if not file_path or not os.path.exists(file_path):
-        return redirect(url_for('welcome'))
+        return redirect(url_for('index'))
     
     df = pd.read_csv(file_path)
     
@@ -266,7 +263,7 @@ def train_model():
         target_column = session.get('target_column')
     
         if not file_path or not os.path.exists(file_path):
-            return redirect(url_for('welcome'))
+            return redirect(url_for('index'))
     
         df = pd.read_csv(file_path)
         X = df.drop(columns=[target_column])
@@ -284,22 +281,21 @@ def train_model():
         matrix=confusion_matrix(y_test,y_pred)
         report = classification_report(y_test, y_pred, target_names=model.classes_, output_dict=True)
 
-        plt.figure(figsize=(8, 6))
-        sns.heatmap(matrix, annot=True, fmt='d', cmap='Blues', xticklabels=model.classes_, yticklabels=model.classes_)
-        plt.xlabel('Predicted Labels')
-        plt.ylabel('True Labels')
-        plt.title('Confusion Matrix')
+        fig = px.imshow(matrix, 
+                text_auto=True, 
+                x=model.classes_, 
+                y=model.classes_, 
+                color_continuous_scale='Blues',
+                title="Confusion Matrix")
+        confusion_matrix_html = fig.to_html(full_html=False)
 
-        confusion_matrix_path = os.path.join(app.config['STATIC_FOLDER'], 'confusion_matrix.png')
-        plt.savefig(confusion_matrix_path)
-        plt.close()
 
         report_html = pd.DataFrame(report).transpose().to_html(classes='data', header=True, index=True)
         return render_template('model_result.html',
                                test_size=test_size,
                                random_state=random_state,
                                accuracy=accuracy,
-                               confusion_matrix_url=url_for('static', filename='confusion_matrix.png'),
+                               confusion_matrix_html=confusion_matrix_html,
                                report_html=report_html)
 
 

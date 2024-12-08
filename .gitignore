@@ -19,6 +19,7 @@ instance/
 .env
 key.py
 config.py
+.venv
 
 # IDE/Editor Specific
 .vscode/
