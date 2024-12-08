@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from key import SECRET_KEY
 import os
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -10,7 +9,11 @@ from sklearn.metrics import classification_report
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
+from dotenv import load_dotenv
 
+
+load_dotenv()
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 app = Flask(__name__)
