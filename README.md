@@ -120,4 +120,4 @@ This app is deployed using render service.
 Visit : https://data-navigator-v1-1.onrender.com 
 
 After visiting the URL , you may be encountered with the following screen. Please wait for a while as render restarts the service
-![image](outpu/render.png)
+![image](output/render.png)
