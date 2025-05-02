@@ -1,76 +1,123 @@
 
-# DataNavigator
+# 📊 DataNavigator
 
-This project is a web-based application built using Flask that allows users to upload datasets, perform various preprocessing steps, and visualize data correlations. The application provides a user-friendly interface for data analysis, making it easier for non-technical users to interact with and explore datasets.
+**DataNavigator** is a web-based application built using **Flask** that enables users to upload datasets, perform preprocessing, and visualize correlations through an intuitive interface. Ideal for beginners and non-technical users, it streamlines the data exploration process with features like encoding, outlier removal, and logistic regression.
 
+---
 
-## Features
+## ✨ Features
 
-- **Upload Dataset**: Users can upload CSV files containing datasets.
-- **Data Preprocessing**: Select columns to drop, and choose a target column for analysis.
-- **Encoding Options**: Option to encode categorical columns using OrdinalEncoder or OneHotEncoder.
-- **Correlation Analysis**: Generate and visualize a correlation heatmap using Seaborn.
-- **Box Plot Visualization**: Generate box plots for the top correlated features.
-- **Outlier Removal**: Identify and remove outliers using the Interquartile Range (IQR) method.
-- **Logistic Rgression**: Apply Logistic Rgression to the processed dataset.
+- **Upload Dataset**: Accepts CSV files for analysis.
+- **Column Selection**: Drop unnecessary columns and choose a target column.
+- **Encoding Options**: Apply `OrdinalEncoder` or `OneHotEncoder` to categorical columns.
+- **Correlation Heatmap**: Visualize feature correlations with Seaborn.
+- **Box Plot Analysis**: Generate box plots for top correlated features.
+- **Outlier Removal**: Clean data using the Interquartile Range (IQR) method.
+- **Logistic Regression**: Apply logistic regression on the cleaned dataset.
 
-## Project Structure
-- `app.py`: The main Flask application file that handles routing and backend logic.
-- `flask_session/`: Directory for managing Flask session data.
-- `static/`: Directory for storing static assets like CSS, JavaScript, and images.
-- `templates/`: Directory for storing HTML templates used in the web app.
-- `uploads/`: Directory where uploaded datasets are temporarily stored.
-- `venv/`: Virtual environment containing project dependencies (ignored by Git).
-## Installation
-To run this project locally, follow these steps:
+---
 
-1. **Clone the Repository**:
-    ```bash
-    git clone https://github.com/gautam0406/data-navigator-v1.git
-    cd data-navigator-v1
-    ```
+## 📁 Project Structure
 
-2. **Create a Virtual Environment**:
-    ```bash
-    python -m venv venv
-    ```
+```
+DataNavigator/
+├── app.py                 # Flask app entry point
+├── flask_session/         # Flask session management
+├── static/                # CSS, JS, and other static files
+├── templates/             # HTML templates (Jinja2)
+├── uploads/               # Folder for uploaded CSVs
+├── venv/                  # Virtual environment (excluded from Git)
+└── requirements.txt       # Project dependencies
+```
 
-3. **Activate the Virtual Environment**:
-    - On Windows:
-        ```bash
-        venv\Scripts\activate
-        ```
-    - On macOS/Linux:
-        ```bash
-        source venv/bin/activate
-        ```
+---
 
-4. **Install Dependencies**:
-    ```bash
-    pip install -r requirements.txt
-    ```
+## ⚙️ Installation
 
-5. **Run the Application**:
-    ```bash
-    python app.py
-    ```
-    The application will be accessible at `http://127.0.0.1:5000`.
-## Usage
+### 1. Clone the Repository
 
-1. Open the web application in your browser.
+```bash
+git clone https://github.com/yourusername/data-navigator.git
+cd data-navigator
+```
+
+### 2. Create a Virtual Environment
+
+```bash
+python -m venv venv
+```
+
+### 3. Activate the Virtual Environment
+
+- **Windows**:
+  ```bash
+  venv\Scripts\activate
+  ```
+- **macOS/Linux**:
+  ```bash
+  source venv/bin/activate
+  ```
+
+### 4. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 5. Run the Application
+
+```bash
+python app.py
+```
+
+Visit the app at: [http://127.0.0.1:5000](http://127.0.0.1:5000)
+
+---
+
+## 🚀 Usage Guide
+
+1. Launch the app in your browser.
 2. Upload a CSV dataset.
-3. Explore the dataset and perform preprocessing:
-   - Select columns to drop.
-   - Choose a target column.
-   - Apply encoding to categorical data.
-4. Generate and view the correlation heatmap.
-5. Visualize box plots for top correlated features.
-6. Remove outliers from the dataset.
-7. Apply Logistic Rgression.
-## Dependencies
+3. Select columns to drop and pick a target column.
+4. Apply encodings for categorical variables.
+5. Generate a correlation heatmap.
+6. View box plots of top features.
+7. Remove outliers and apply logistic regression.
+
+---
+
+## 📦 Dependencies
+
 - Flask
 - Pandas
-- Plotly
 - Scikit-learn
+- Seaborn
+- Plotly
 
-These dependencies are listed in the `requirements.txt` file.
+All dependencies are listed in `requirements.txt`.
+
+---
+
+## 📷 Demo
+![1](output/1.png)
+
+![2](output/2.png)
+
+![3](output/3.png)
+
+![4](output/4.png)
+
+![5](output/5.png)
+
+![6](output/6.png)
+
+![7](output/7.png)
+
+---
+
+## 📄 Deployement
+This app is deployed using render service.
+Visit : https://data-navigator-v1-1.onrender.com 
+
+After visiting the URL , you may be encountered with the following screen. Please wait for a while as render restarts the service
+![image](outpu/render.png)
